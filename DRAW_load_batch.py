@@ -25,7 +25,7 @@ def loadimg(srcdir, names, w=54, h=54, p=0.1):
 		rd = cv2.imread(img)
 		print(rd)
 		resize_rd = cv2.resize(rd, (w,h), interpolation = cv2.cv.CV_INTER_AREA)
-		imgdone = rd / 255.
+		imgdone = resize_rd / 255.
 		img_jitter = jitter(0.1, imgdone)
 		img_flatten = img_jitter.reshape(1, w*h*3)
 		imgset[i] = img_flatten
