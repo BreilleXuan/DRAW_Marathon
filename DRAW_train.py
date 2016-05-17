@@ -37,11 +37,11 @@ imglist = load_name_list(img_name_file)
 
 for i in range(train_iters):
 
-    namelist = iterate_minibatches(imglist, batch_size, shuffle=True)
+    namelist = minibatches(imglist, batch_size, shuffle=True)
 
     for j in range(len(namelist)):
-        name_batch_list = namelist[j]
-        xtrain = loadimg(srcdir, name_batch_list)
+        batch_name_list = namelist[j]
+        xtrain = loadimg(srcdir, batch_name_list)
         feed_dict={x:xtrain}
         results=sess.run(fetches,feed_dict)
         Lxs[i],Lzs[i],_=results

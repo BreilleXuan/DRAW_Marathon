@@ -9,7 +9,7 @@ imglist = load_name_list(img_name_file)
 
 for i in range(train_iters):
 
-    namelist = iterate_minibatches(imglist, batch_size, shuffle=True)
+    namelist = minibatches(imglist, batch_size, shuffle=True)
 
     for j in range(len(namelist)):
         name_batch_list = namelist[j]
