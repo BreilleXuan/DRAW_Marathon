@@ -21,7 +21,8 @@ def loadimg(srcdir, names, w=54, h=54, p=0.1):
 		image = names[i]
 		print srcdir + '/' + image
 		rd = cv2.imread(srcdir + '/' + image)
-		resize_rd = cv2.resize(rd, (w,h), interpolation = cv2.cv.CV_INTER_AREA)
+		# resize_rd = cv2.resize(rd, (w,h), interpolation = cv2.cv.CV_INTER_AREA)
+		resize_rd = cv2.resize(rd, (w,h))
 		imgdone = rd / 255.
 		img_jitter = jitter(0.1, imgdone)
 		img_flatten = img_jitter.reshape(1, w*h*3)
