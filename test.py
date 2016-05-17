@@ -4,11 +4,12 @@ from DRAW_load_batch import *
 from File.file_csv import *
 
 
-namelist = load_name_list("data/namefile.csv")
-srcdir = "data/cutted_images/"
-img_name = iterate_minibatches(namelist, 4, shuffle=True)
+imglist = load_name_list(img_name_file)
 
-name_batch = img_name[0]
-print(name_batch)
+for i in range(train_iters):
 
-loadimg(srcdir, name_batch)
+    namelist = iterate_minibatches(imglist, batch_size, shuffle=True)
+
+    for j in range(len(namelist)):
+        name_batch_list = namelist[j]
+        xtrain = loadimg(srcdir, name_batch_list)
