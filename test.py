@@ -6,7 +6,7 @@ from DRAW_load_batch import *
 from DRAW_models import *
 from DRAW_parameters import *
 
-sess=tf.InteractiveSession()
+sess=tf.Session()
 
 print("Model Building Complete...")
 
