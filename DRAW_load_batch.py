@@ -56,12 +56,7 @@ if __name__ == '__main__':
 	name_batch = img_name[0]
 	print(name_batch)
 
-	img = srcdir + name_batch[0]
-	print(img)
-	
-	rd = cv2.imread(img)
-	print(rd)
-
+	loadimg(srcdir, name_batch)
 
 
 
