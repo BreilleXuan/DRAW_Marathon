@@ -19,7 +19,8 @@ def loadimg(srcdir, names, w=54, h=54, p=0.1):
 	
 	for i in range(n):
 		image = names[i]
-		img = srcdir + image.strip("\n")
+		image = image.strip("\n")
+		img = srcdir + image
 		print img
 		rd = cv2.imread(img)
 		print(rd)
