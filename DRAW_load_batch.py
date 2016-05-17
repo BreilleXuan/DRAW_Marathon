@@ -18,10 +18,10 @@ def loadimg(srcdir, names, w=54, h=54, p=0.1):
 	imgset = np.zeros((n, w*h*3))
 	
 	for i in range(n):
-		image = names[i]
-		img = srcdir + image
-		print(img)
-		rd = cv2.imread(img)
+		current_img = names[i]
+		current_img = srcdir + current_img
+		print(current_img)
+		rd = cv2.imread(current_img)
 		print(rd)
 		resize_rd = cv2.resize(rd, (w,h), interpolation = cv2.cv.CV_INTER_AREA)
 		imgdone = resize_rd / 255.
