@@ -20,7 +20,6 @@ def loadimg(srcdir, names, w=54, h=54, p=0.1):
 	for i in range(n):
 		image = names[i]
 		img = srcdir + image
-		img = img.strip("\n")
 		print(img)
 		rd = cv2.imread(img)
 		print(rd)
