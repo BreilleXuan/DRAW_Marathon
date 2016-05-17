@@ -26,7 +26,6 @@ def loadimg(srcdir, names, w=54, h=54, p=0.1):
 		img_jitter = jitter(0.1, imgdone)
 		img_flatten = img_jitter.reshape(1, w*h*3)
 		imgset[i] = img_flatten
-
 	return imgset
 
 def iterate_minibatches(imglist, batchsize, shuffle=False):
@@ -41,7 +40,7 @@ def iterate_minibatches(imglist, batchsize, shuffle=False):
         yield imglist[excerpt]
 
 def load_name_list(img_name_file):
-	return loadcsv(img_name_file)
+	return loadcsv(img_name_file)[0]
 
 
 if __name__ == '__main__':

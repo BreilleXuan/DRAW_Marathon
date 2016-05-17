@@ -38,18 +38,18 @@ imglist = load_name_list(img_name_file)
 print(type(imglist))
 for i in range(train_iters):
     namelist = iterate_minibatches(imglist, batch_size, shuffle=True)
-    print(namelist)
-    xtrain = loadimg(srcdir, namelist, w=A, h=B, p=jitter)
-    # xtrain,_=train_data.next_batch(batch_size) # xtrain is (batch_size x img_size)
-    feed_dict={x:xtrain}
-    results=sess.run(fetches,feed_dict)
-    Lxs[i],Lzs[i],_=results
-    if i % print_interval==0:
-        print("iter=%d : Lx: %f Lz: %f" % (i,Lxs[i],Lzs[i]))
+
+    for j,batch_name_list in enumerate(namelist):
+        xtrain = loadimg(srcdir, batch_name_list, w=A, h=B, p=jitter)
+        feed_dict={x:xtrain}
+        results=sess.run(fetches,feed_dict)
+        Lxs[i],Lzs[i],_=results
+
+        print("epoch=%d,iter=%d : Lx: %f Lz: %f" % (i,j,Lxs[i],Lzs[i]))
     
-    if (i+1) % save_interval == 0:
-        ckpt_file=os.path.join(FLAGS.data_dir,prefix+str(i+1)+".ckpt")
-        print("Model saved in file: %s" % saver.save(sess,ckpt_file))
+        if (j+1) % save_interval == 0:
+            ckpt_file=os.path.join(FLAGS.data_dir,prefix+str(i+1)+'_'+str(j+1)+".ckpt")
+            print("Model saved in file: %s" % saver.save(sess,ckpt_file))
     
 
 ## TRAINING FINISHED ## 
