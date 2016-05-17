@@ -16,13 +16,6 @@ for i,(g,v) in enumerate(grads):
         grads[i]=(tf.clip_by_norm(g,5),v) # clip gradients
 train_op=optimizer.apply_gradients(grads)
 
-## RUN TRAINING ## 
-
-data_directory = os.path.join(FLAGS.data_dir, "mnist")
-if not os.path.exists(data_directory):
-    os.makedirs(data_directory)
-train_data = mnist.input_data.read_data_sets(data_directory, one_hot=True).train # binarized (0-1) mnist data
-
 fetches=[]
 fetches.extend([Lx,Lz,train_op])
 Lxs=[0]*train_iters
