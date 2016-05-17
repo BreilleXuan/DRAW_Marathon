@@ -32,6 +32,7 @@ print("Model Building Complete...")
 
 print("--------------------------")
 print("Start training...")
+print("--------------------------")
 
 imglist = load_name_list(img_name_file)
 
@@ -40,13 +41,15 @@ for i in range(train_iters):
     namelist = minibatches(imglist, batch_size, shuffle=True)
 
     for j in range(len(namelist)):
+        
         batch_name_list = namelist[j]
         xtrain = loadimg(srcdir, batch_name_list)
         feed_dict={x:xtrain}
         results=sess.run(fetches,feed_dict)
         Lxs[i],Lzs[i],_=results
 
-        print("epoch=%d,iter=%d : Lx: %f Lz: %f" % (i,j,Lxs[i],Lzs[i]))
+        if (print_interval + 1) % print_interval == 0:
+            print("epoch=%d,iter=%d : Lx: %f Lz: %f" % (i,j,Lxs[i],Lzs[i]))
     
         if (j+1) % save_interval == 0:
             ckpt_file=os.path.join(FLAGS.data_dir,prefix+str(i+1)+'_'+str(j+1)+".ckpt")
