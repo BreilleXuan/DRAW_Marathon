@@ -7,6 +7,7 @@ from DRAW_load_batch import *
 from DRAW_models import *
 from DRAW_parameters import *
 
+print("Building model...")
 optimizer=tf.train.AdamOptimizer(learning_rate, beta1=0.5)
 # optimizer=tf.train.MomentumOptimizer(learning_rate, momentum=0.9)
 grads=optimizer.compute_gradients(cost)
@@ -35,9 +36,15 @@ if continue_training:
 else:
     tf.initialize_all_variables().run()
 
+print("Model Building Complete...")
+
+print("--------------------------")
+print("Start training...")
+
 imglist = load_name_list(img_name_file)
 for i in range(train_iters):
     namelist = iterate_minibatches(imglist, batch_size, shuffle=True)
+    print(namelist)
     xtrain = loadimg(srcdir, namelist, w=A, h=B, p=jitter)
     # xtrain,_=train_data.next_batch(batch_size) # xtrain is (batch_size x img_size)
     feed_dict={x:xtrain}
