@@ -32,15 +32,17 @@ def iterate_minibatches(imglist, batchsize, shuffle=False):
     if shuffle:
         indices = np.arange(len(imglist))
         np.random.shuffle(indices)
+    output = []
     for start_idx in range(0, len(imglist) - batchsize + 1, batchsize):
         if shuffle:
             excerpt = indices[start_idx:start_idx + batchsize]
         else:
             excerpt = slice(start_idx, start_idx + batchsize)
-        yield imglist[excerpt]
+        output.append(imglist[excerpt]) 
+    return output
 
 def load_name_list(img_name_file):
-	return loadcsv(img_name_file)[0]
+	return np.array(loadcsv(img_name_file)[0])
 
 
 if __name__ == '__main__':

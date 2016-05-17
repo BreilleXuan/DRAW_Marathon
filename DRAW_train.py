@@ -37,8 +37,9 @@ print("Start training...")
 imglist = load_name_list(img_name_file)
 print(type(imglist))
 for i in range(train_iters):
-    namelist = iterate_minibatches(imglist, batch_size, shuffle=True)
 
+    namelist = iterate_minibatches(imglist, batch_size, shuffle=True)
+    
     for j,batch_name_list in enumerate(namelist):
         xtrain = loadimg(srcdir, batch_name_list, w=A, h=B, p=jitter)
         feed_dict={x:xtrain}
