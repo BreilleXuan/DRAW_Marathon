@@ -21,7 +21,7 @@ def loadimg(srcdir, names, w=54, h=54, p=0.1):
 		image = names[i]
 		img = srcdir + '/' + image
 		print img
-		rd = cv2.imread(img)
+		rd = cv2.imread(str(img))
 		print(rd)
 		resize_rd = cv2.resize(rd, (w,h), interpolation = cv2.cv.CV_INTER_AREA)
 		imgdone = rd / 255.
