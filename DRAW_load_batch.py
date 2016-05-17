@@ -48,9 +48,10 @@ def load_name_list(img_name_file):
 
 
 if __name__ == '__main__':
-	namelist = loadcsv("data/namefile.csv")
+	namelist = load_name_list("data/namefile.csv")
 	srcdir = "data/cutted_images/"
 	img_name = namelist[0]
+	print(img_name)
 	img = srcdir + img_name
 	rd = cv2.imread(img)
 	print(rd)
