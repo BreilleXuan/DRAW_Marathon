@@ -35,6 +35,7 @@ print("--------------------------")
 print("Start training...")
 
 imglist = load_name_list(img_name_file)
+print(imglist)
 for i in range(train_iters):
     namelist = iterate_minibatches(imglist, batch_size, shuffle=True)
     print(namelist)
