@@ -31,7 +31,7 @@ def loadimg(srcdir, names, w=54, h=54, p=0.1):
 		imgset[i] = img_flatten
 	return imgset
 
-def iterate_minibatches(imglist, batchsize, shuffle=False):
+def iterate_minibatches(imglist, batchsize, shuffle=True):
     if shuffle:
         indices = np.arange(len(imglist))
         np.random.shuffle(indices)
@@ -51,9 +51,14 @@ def load_name_list(img_name_file):
 if __name__ == '__main__':
 	namelist = load_name_list("data/namefile.csv")
 	srcdir = "data/cutted_images/"
-	img_name = namelist[0]
-	print(img_name)
-	img = srcdir + img_name
+	img_name = iterate_minibatches(namelist, 4, shuffle=True)
+
+	name_batch = img_name[0]
+	print(name_batch)
+
+	img = srcdir + name_batch[0]
+	print(img)
+	
 	rd = cv2.imread(img)
 	print(rd)
 
