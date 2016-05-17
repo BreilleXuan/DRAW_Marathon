@@ -53,11 +53,11 @@ for i in range(train_iters):
 
 ## TRAINING FINISHED ## 
 
-canvases=sess.run(cs,feed_dict) # generate some examples
-canvases=np.array(canvases) # T x batch x img_size
+# canvases=sess.run(cs,feed_dict) # generate some examples
+# canvases=np.array(canvases) # T x batch x img_size
 
-out_file=os.path.join(FLAGS.data_dir,"draw_data.npy")
-np.save(out_file,[canvases,Lxs,Lzs])
-print("Outputs saved in file: %s" % out_file)
+# out_file=os.path.join(FLAGS.data_dir,"draw_data.npy")
+# np.save(out_file,[canvases,Lxs,Lzs])
+# print("Outputs saved in file: %s" % out_file)
 
 sess.close()

@@ -21,7 +21,7 @@ z_size=100 # QSampler output size
 T=32 # number of generation step
 
 img_name_file = "data/namefile.csv" # image name file
-srcdir = "data/cutted_img" # image directory
+srcdir = "data/cutted_images" # image directory
 jitter = 0.1
 
 batch_size=16 # training minibatch size
