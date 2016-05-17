@@ -41,8 +41,7 @@ def iterate_minibatches(imglist, batchsize, shuffle=False):
         yield imglist[excerpt]
 
 def load_name_list(img_name_file):
-	namelist = loadcsv(img_name_file)
-	return list(namelist)
+	return namelist = loadcsv(img_name_file)
 
 
 if __name__ == '__main__':
