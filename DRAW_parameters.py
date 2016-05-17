@@ -20,8 +20,8 @@ write_size = write_n*write_n if FLAGS.write_attn else img_size
 z_size=100 # QSampler output size
 T=32 # number of generation step
 
-img_name_file = 'labels/namelist.txt' # image name file
-srcdir = "/img" # image directory
+img_name_file = "data/namefile.csv" # image name file
+srcdir = "data/cutted_img" # image directory
 jitter = 0.1
 
 batch_size=16 # training minibatch size

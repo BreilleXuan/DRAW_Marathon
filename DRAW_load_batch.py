@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from File.file_csv import *
 
 def jitter(p, img):
 	l, w = img.shape[0], img.shape[1]
@@ -40,14 +41,15 @@ def iterate_minibatches(imglist, batchsize, shuffle=False):
         yield imglist[excerpt]
 
 def load_name_list(img_name_file):
-	TrainNames = []
-	for row in open(img_name_file):
-		rd = row.split()
-		TrainNames.append(rd[0])
-	return TrainNames
+	namelist = loadcsv(img_name_file)
+	return list(namelist)
 
 
 if __name__ == '__main__':
-	avg = np.load('avg.npy')
-	names = ['001496e2-973a-3b59-25ae-4b389c976d8c.jpg', '002775fe-9ddc-341c-75f4-d6be1e012bf0.jpg']
-	print loadimg('image_resize', names, avg)
+	namelist = loadcsv("data/namefile.csv")
+	print(list(namelist))
+
+
+
+
+
