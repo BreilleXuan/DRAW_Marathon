@@ -131,9 +131,9 @@ def write_attn(h_dec):
     wr_1 = tf.batch_matmul(Fyt, wFx_1)
     wr_2 = tf.batch_matmul(Fyt, wFx_2)
 
-    wr_0 = tf.reshape(wr_0, [batch, B*A])
-    wr_1 = tf.reshape(wr_1, [batch, B*A])
-    wr_2 = tf.reshape(wr_2, [batch, B*A])
+    wr_0 = tf.reshape(wr_0, [batch_size, B*A])
+    wr_1 = tf.reshape(wr_1, [batch_size, B*A])
+    wr_2 = tf.reshape(wr_2, [batch_size, B*A])
 
     wr = tf.concat(1, [wr_0, wr_1])
     wr = tf.concat(1, [wr, wr_2])
