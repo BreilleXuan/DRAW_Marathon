@@ -27,9 +27,8 @@ def loadimg(srcdir, names, w=54, h=54, p=0.1):
 	for i in range(n):
 		current_img = names[i].split('.')[0]
 		current_img = srcdir + current_img + '.npy'
-		print(current_img)
+		print(names[i])
 		rd = np.load(current_img)
-		print(rd)
 		resize_rd = cv2.resize(rd, (w,h), interpolation = cv2.cv.CV_INTER_AREA)
 		imgdone = resize_rd / 255.
 		img_jitter = jitter(0.1, imgdone)

@@ -8,7 +8,7 @@ FLAGS = tf.flags.FLAGS
 ## MODEL PARAMETERS ## 
 
 A,B = 54,54 # image width,height
-img_size = B*A # the canvas size
+img_size = B*A*3 # the canvas size
 
 enc_size = 100 # number of hidden units / output size in LSTM
 dec_size = 100
@@ -21,7 +21,7 @@ z_size=100 # QSampler output size
 T=32 # number of generation step
 
 img_name_file = "data/namefile.csv" # image name file
-srcdir = "data/cutted_images/" # image directory
+srcdir = "data/npy_images/" # image directory
 jitter = 0.1
 
 batch_size=16 # training minibatch size
