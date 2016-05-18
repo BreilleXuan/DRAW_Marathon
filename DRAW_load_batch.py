@@ -4,20 +4,20 @@ from File.file_csv import *
 from DRAW_parameters import *
 
 def jitter(p, img):
-	l, w = img.shape[0], img.shape[1]
+	l, w = img.shape[0], img.shape[1] # l:height; w:width
 	a, b = np.floor(l * p) - 1, np.floor(w * p) - 1
 	rad = np.random.rand(2)
-	row_start = int(a * rad[0])
-	col_start = int(b * rad[1])
-	row_end = row_start + np.floor((1-p)*l)
-	col_end = col_start + np.floor((1-p)*w)
+	row_start = np.floor(a * rad[0])
+	col_start = np.floor(b * rad[1])
+	row_end = min(row_start + np.floor((1-p)*l), l) 
+	col_end = min(col_start + np.floor((1-p)*w), w)
 	outimg = cv2.resize(img[row_start:row_end, col_start:col_end, :],(l, w))
 	return outimg
 
 def img_to_npy(namelist):
 	for name in namelist:
 		current_img = srcdir + name
-		rd = cv2.imread(current_img)
+		rd = cv2.imread(current_img) # height, width, channel
 		np.save('data/npy_images/'+name.split('.')[0]+'.npy', rd)
 
 def loadimg(srcdir, names, w=54, h=54, p=0.1):
@@ -53,8 +53,8 @@ def load_name_list(img_name_file):
 	return np.array(loadcsv(img_name_file)[0])
 
 
-if __name__ == '__main__':
-	namelist = load_name_list("data/namefile.csv")
-	img_to_npy(namelist)
+# if __name__ == '__main__':
+# 	namelist = load_name_list("data/namefile.csv")
+# 	img_to_npy(namelist)
 
 
