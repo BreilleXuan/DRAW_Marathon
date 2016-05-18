@@ -15,8 +15,8 @@ dec_size = 100
 
 read_n = 2 # read glimpse grid width/height
 write_n = 2 # write glimpse grid width/height
-read_size = 2*read_n*read_n if FLAGS.read_attn else 2*img_size
-write_size = write_n*write_n if FLAGS.write_attn else img_size
+read_size = 2*read_n*read_n*3 if FLAGS.read_attn else 2*img_size
+write_size = write_n*write_n*3 if FLAGS.write_attn else img_size
 z_size=100 # QSampler output size
 T=32 # number of generation step
 
