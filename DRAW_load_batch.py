@@ -16,7 +16,7 @@ def jitter(p, img):
 
 def img_to_npy(namelist):
 	for name in namelist:
-		current_img = srcdir + current_img
+		current_img = srcdir + name
 		rd = cv2.imread(current_img)
 		np.save('data/npy_images/'+name.split('.')[0]+'.npy', rd)
 
