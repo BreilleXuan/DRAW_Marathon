@@ -13,15 +13,21 @@ def jitter(p, img):
 	outimg = cv2.resize(img[row_start:row_end, col_start:col_end, :],(l, w))
 	return outimg
 
+def img_to_npy(namelist):
+	for name in namelist:
+		current_img = srcdir + current_img
+		rd = cv2.imread(current_img)
+		np.save('data/npy_images/'+name.split('.')[0]+'.npy', rd)
+
 def loadimg(srcdir, names, w=54, h=54, p=0.1):
 	n = len(names)
 	imgset = np.zeros((n, w*h*3))
 	
 	for i in range(n):
-		current_img = names[i]
-		current_img = srcdir + current_img
+		current_img = names[i].split('.')[0]
+		current_img = srcdir + current_img + '.npy'
 		print(current_img)
-		rd = cv2.imread(current_img)
+		rd = np.load(current_img)
 		print(rd)
 		resize_rd = cv2.resize(rd, (w,h), interpolation = cv2.cv.CV_INTER_AREA)
 		imgdone = resize_rd / 255.
@@ -49,13 +55,6 @@ def load_name_list(img_name_file):
 
 if __name__ == '__main__':
 	namelist = load_name_list("data/namefile.csv")
-	srcdir = "data/cutted_images/"
-	img_name = minibatches(namelist, 4, shuffle=True)
-
-	name_batch = img_name[0]
-	print(name_batch)
-
-	loadimg(srcdir, name_batch)
-
+	img_to_npy(namelist)
 
 
