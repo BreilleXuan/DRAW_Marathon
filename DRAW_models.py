@@ -52,21 +52,26 @@ def read_no_attn(x,x_hat,h_dec_prev):
 def read_attn(x,x_hat,h_dec_prev):
     Fx,Fy,gamma=attn_window("read",h_dec_prev,read_n)
     def filter_img(img,Fx_,Fy_,gamma,N):
-        # Fxt=tf.transpose(Fx,perm=[0,2,1])
-        # img=tf.reshape(img,[-1,B,A])
-        # glimpse=tf.batch_matmul(Fy,tf.batch_matmul(img,Fxt))
-        # glimpse=tf.reshape(glimpse,[-1,N*N])
-        Fxt=tf.transpose(Fx_, [0,2,1]) # batch x N x A
-        Fxt=tf.reshape(Fxt, [-1,1,A,N,1]) # batch x 1 x A x N x 1
-        Fxt=tf.tile(Fxt, [1,N,1,1,1]) # batch x N x A x N x 1 (repmat'ed along dim=1)
-        Fy_=tf.reshape(Fy_, [-1,N,B,1,1]) # batch x N x B x 1 x 1
-        x=tf.reshape(x,[-1,1,B,A,3]) # batch x 1 x B x A x 3
-        x=tf.tile(x,[1,N,1,1,1]) # batch x N x B x A x 3
-        Fydotx=tf.reduce_sum(Fy_*x,2) # batch x N x A x 3
-        Fydotx=tf.reshape(x,[-1,N,A,1,3]) # batch x N x A x 1 x 3
-        FydotxdotFxt=tf.reduce_sum(Fydotx*Fxt,2) # batch x N x N x 3
-        glimpse=tf.reshape(FydotxdotFxt,[-1,N*N*3])
+        Fxt=tf.transpose(Fx,perm=[0,2,1]) # batch*A*N
+        img=tf.reshape(img,[-1,B,A,3])    # batch*B*A*3
+                                          # Fy: batch*N*B
+        fydotx_0 = tf.batch_matmul(Fy, img[:,:,:,0])
+        fydotx_1 = tf.batch_matmul(Fy, img[:,:,:,1])
+        fydotx_2 = tf.batch_matmul(Fy, img[:,:,:,2])
+
+        imgread_0 = tf.batch_matmul(fydotx_0, Fxt)
+        imgread_1 = tf.batch_matmul(fydotx_1, Fxt)
+        imgread_2 = tf.batch_matmul(fydotx_2, Fxt)
+
+        glimpse_0 = tf.reshape(imgread_0, [-1, N*N])
+        glimpse_1 = tf.reshape(imgread_1, [-1, N*N])
+        glimpse_2 = tf.reshape(imgread_2, [-1, N*N])
+
+        glimpse = tf.concat(1, [glimpse_0, glimpse_1])
+        glimpse = tf.concat(1, [glimpse, glimpse_2])
+    
         return glimpse*tf.reshape(gamma,[-1,1])
+
     x=filter_img(x,Fx,Fy,gamma,read_n) # batch x (read_n*read_n*3)
     x_hat=filter_img(x_hat,Fx,Fy,gamma,read_n)
     return tf.concat(1,[x,x_hat]) # concat along feature axis
@@ -112,23 +117,26 @@ def write_attn(h_dec):
     with tf.variable_scope("writeW",reuse=DO_SHARE):
         w=linear(h_dec,write_size) # batch x (write_n*write_n*3)
     N=write_n
-    w=tf.reshape(w,[batch_size,N,N,3])
-    Fx,Fy,gamma=attn_window("write",h_dec,write_n)
-    # Fyt=tf.transpose(Fy,perm=[0,2,1])
-    # wr=tf.batch_matmul(Fyt,tf.batch_matmul(w,Fx))
+    w=tf.reshape(w, [batch_size,N,N,3])
+    Fx,Fy,gamma=attn_window("write", h_dec,write_n)
+    Fyt=tf.transpose(Fy, perm=[0,2,1])
+    # wr=tf.batch_matmul(Fyt, tf.batch_matmul(w,Fx))
     # wr=tf.reshape(wr,[batch_size,B*A])
-    #gamma=tf.tile(gamma,[1,B*A])
-    Fy = tf.transpose(Fy, [0, 2, 1])
-    Fy = tf.reshape(Fy, [-1, B, N, 1, 1])
-    w = tf.reshape(w, [-1, 1, N, N, 3])
-    w = tf.tile(w, [1, B, 1, 1, 1])
-    wr = tf.reduce_sum(Fy * w, 2)
 
-    wr = tf.reshape(wr, [-1, B, N, 1, 3])
-    Fx = tf.reshape(Fx, [-1, 1, N, A, 1])
-    Fx = tf.tile(Fx, [1, B, 1, 1, 1])
-    wr = tf.reduce_sum(wr * Fx, 2)
-    wr=tf.reshape(wr,[batch_size,B*A*3])
+    wFx_0 = tf.batch_matmul(w[:,:,:,0],Fx)
+    wFx_1 = tf.batch_matmul(w[:,:,:,1],Fx)
+    wFx_2 = tf.batch_matmul(w[:,:,:,2],Fx)
+
+    wr_0 = tf.batch_matmul(Fyt, wFx_0)
+    wr_1 = tf.batch_matmul(Fyt, wFx_1)
+    wr_2 = tf.batch_matmul(Fyt, wFx_2)
+
+    wr_0 = tf.reshape(wr_0, [batch, B*A])
+    wr_1 = tf.reshape(wr_1, [batch, B*A])
+    wr_2 = tf.reshape(wr_2, [batch, B*A])
+
+    wr = tf.concat(1, [wr_0, wr_1])
+    wr = tf.concat(1, [wr, wr_2])
 
     return wr*tf.reshape(1.0/gamma,[-1,1])
 
