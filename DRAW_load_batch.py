@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from File.file_csv import *
+from DRAW_parameters import *
 
 def jitter(p, img):
 	l, w = img.shape[0], img.shape[1]
