@@ -10,11 +10,11 @@ FLAGS = tf.flags.FLAGS
 A,B = 54,54 # image width,height
 img_size = B*A*3 # the canvas size
 
-enc_size = 800 # number of hidden units / output size in LSTM
-dec_size = 800
+enc_size = 512 # number of hidden units / output size in LSTM
+dec_size = 512
 
-read_n = 12 # read glimpse grid width/height
-write_n = 12 # write glimpse grid width/height
+read_n = 5 # read glimpse grid width/height
+write_n = 5 # write glimpse grid width/height
 read_size = 2*read_n*read_n*3 if FLAGS.read_attn else 2*img_size
 write_size = write_n*write_n*3 if FLAGS.write_attn else img_size
 z_size=100 # QSampler output size
@@ -26,7 +26,7 @@ jitter = 0.1
 
 batch_size=128 # training minibatch size
 train_iters=100000
-learning_rate=1e-7 # learning rate for optimizer
+learning_rate=3e-4 # learning rate for optimizer
 eps=1e-10 # epsilon for numerical stabilitys
 ld = 1.
 
