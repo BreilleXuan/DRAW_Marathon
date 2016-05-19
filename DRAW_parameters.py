@@ -13,8 +13,8 @@ img_size = B*A*3 # the canvas size
 enc_size = 1000 # number of hidden units / output size in LSTM
 dec_size = 1000
 
-read_n = 12 # read glimpse grid width/height
-write_n = 12 # write glimpse grid width/height
+read_n = 15 # read glimpse grid width/height
+write_n = 15 # write glimpse grid width/height
 read_size = 2*read_n*read_n*3 if FLAGS.read_attn else 2*img_size
 write_size = write_n*write_n*3 if FLAGS.write_attn else img_size
 z_size=120 # QSampler output size
