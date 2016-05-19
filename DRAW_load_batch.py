@@ -24,7 +24,7 @@ def calc_mean(namelist):
 	num = 0
 	sum_avg = 0
 	for name in namelist:
-		current_img = names[i].split('.')[0]
+		current_img = name.split('.')[0]
 		current_img = srcdir + current_img + '.npy'
 		rd = np.load(current_img)
 		sum_avg += np.avg(np.float(rd))
