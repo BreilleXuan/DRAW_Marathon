@@ -16,9 +16,10 @@ def jitter(p, img):
 
 def img_to_npy(namelist):
 	for name in namelist:
+		print(name)
 		current_img = srcdir + name
 		rd = cv2.imread(current_img) # height, width, channel
-		resize_rd = cv2.resize(rd, (w,h), interpolation = cv2.cv.CV_INTER_AREA)
+		resize_rd = cv2.resize(rd, (54,54), interpolation = cv2.cv.CV_INTER_AREA)
 		np.save('data/npy_images/'+name.split('.')[0]+'.npy', resize_rd)
 
 def calc_mean(namelist):
