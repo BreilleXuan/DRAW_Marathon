@@ -35,6 +35,6 @@ print_interval = 1
 prefix = "weights/drawmodel_NO" #model save prefix
 # save_interval = 500e
 
-continue_training = True
-# continue_training = False
+# continue_training = True
+continue_training = False
 load_model_name = 'weights/drawmodel_NO1.ckpt'
