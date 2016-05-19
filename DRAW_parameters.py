@@ -26,14 +26,14 @@ jitter = 0.1
 
 batch_size=32 # training minibatch size
 train_iters=100000
-learning_rate=1e-3 # learning rate for optimizer
+learning_rate=1e-4 # learning rate for optimizer
 eps=1e-10 # epsilon for numerical stabilitys
 ld = 1.
 
 print_interval = 1
 
 prefix = "weights/drawmodel_NO" #model save prefix
-# save_interval = 500
+# save_interval = 500e
 
 # continue_training = True
 continue_training = False
