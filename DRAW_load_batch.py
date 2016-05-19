@@ -56,7 +56,7 @@ def loadimg(srcdir, names, w=54, h=54, p=0.1):
 		current_img = names[i].split('.')[0]
 		current_img = srcdir + current_img + '.npy'
 		rd = np.load(current_img)
-		resize_rd = cv2.resize(rd, (w,h), interpolation = cv2.cv.CV_INTER_AREA)
+		# resize_rd = cv2.resize(rd, (w,h), interpolation = cv2.cv.CV_INTER_AREA)
 		imgdone = (resize_rd - img_mean) / img_std
 		img_jitter = jitter(0.1, imgdone)
 		img_flatten = img_jitter.reshape(1, w*h*3)
@@ -82,7 +82,7 @@ def load_name_list(img_name_file):
 
 if __name__ == '__main__':
 	namelist = load_name_list("data/namefile.csv")
-	img_to_npy(namelist)
-
+	avg = calc_mean(namelist)
+	print(avg)
 
 
