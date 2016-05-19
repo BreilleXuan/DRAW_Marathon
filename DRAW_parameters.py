@@ -10,6 +10,8 @@ FLAGS = tf.flags.FLAGS
 A,B = 54,54 # image width,height
 img_size = B*A*3 # the canvas size
 
+img_mean = 134.017649695
+
 enc_size = 1000 # number of hidden units / output size in LSTM
 dec_size = 1000
 

@@ -33,6 +33,19 @@ def calc_mean(namelist):
 		print(num)
 	return sum_avg / num
 
+def calc_var(namelist):
+	num = 0
+	sum_avg = 0
+	for name in namelist:
+		current_img = name.split('.')[0]
+		current_img = srcdir + current_img + '.npy'
+		rd = np.load(current_img)
+		rd = np.array( (rd - img_mean) ** 2, dtype = np.float)
+		sum_avg += np.mean(rd)
+		num += 1
+		print(num)
+	return sum_avg / num
+
 def loadimg(srcdir, names, w=54, h=54, p=0.1):
 	n = len(names)
 	imgset = np.zeros((n, w*h*3))
@@ -67,7 +80,7 @@ def load_name_list(img_name_file):
 
 if __name__ == '__main__':
 	namelist = load_name_list("data/namefile.csv")
-	avg = calc_mean(namelist)
+	avg = calc_var(namelist)
 	print(avg)
 
 
