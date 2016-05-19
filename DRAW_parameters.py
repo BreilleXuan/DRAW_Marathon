@@ -11,6 +11,8 @@ A,B = 54,54 # image width,height
 img_size = B*A*3 # the canvas size
 
 img_mean = 134.017649695
+img_var = 4846.64284181
+img_std = 69.61783422234565
 
 enc_size = 1000 # number of hidden units / output size in LSTM
 dec_size = 1000
