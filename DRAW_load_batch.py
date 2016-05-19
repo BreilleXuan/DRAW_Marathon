@@ -57,7 +57,7 @@ def loadimg(srcdir, names, w=54, h=54, p=0.1):
 		current_img = srcdir + current_img + '.npy'
 		rd = np.load(current_img)
 		# resize_rd = cv2.resize(rd, (w,h), interpolation = cv2.cv.CV_INTER_AREA)
-		imgdone = (resize_rd - img_mean) / img_std
+		imgdone = (rd - img_mean) / img_std
 		img_jitter = jitter(0.1, imgdone)
 		img_flatten = img_jitter.reshape(1, w*h*3)
 		imgset[i] = img_flatten
