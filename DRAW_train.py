@@ -51,8 +51,8 @@ for i in range(train_iters):
         if (print_interval + 1) % print_interval == 0:
             print("epoch=%d,iter=%d : Lx: %f Lz: %f" % (i,j,Lxs[i],Lzs[i]))
     
-        ckpt_file=os.path.join(FLAGS.data_dir,prefix+str(i+1)+".ckpt")
-        print("Model saved in file: %s" % saver.save(sess,ckpt_file))
+    ckpt_file=os.path.join(FLAGS.data_dir,prefix+str(i+1)+".ckpt")
+    print("Model saved in file: %s" % saver.save(sess,ckpt_file))
     
 
 ## TRAINING FINISHED ## 
