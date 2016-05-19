@@ -27,7 +27,8 @@ def calc_mean(namelist):
 		current_img = name.split('.')[0]
 		current_img = srcdir + current_img + '.npy'
 		rd = np.load(current_img)
-		sum_avg += np.mean(np.float(rd))
+		rd = np.array(rd, dtype = np.float)
+		sum_avg += np.mean(rd)
 		num += 1
 		print(num)
 	return sum_avg / num
