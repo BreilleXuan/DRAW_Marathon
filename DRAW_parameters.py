@@ -30,7 +30,7 @@ jitter = 0.1
 
 batch_size=128 # training minibatch size
 train_iters=100000
-learning_rate=1e-3 # learning rate for optimizer
+learning_rate=3e-4 # learning rate for optimizer
 eps=1e-10 # epsilon for numerical stabilitys
 ld = 1.
 
