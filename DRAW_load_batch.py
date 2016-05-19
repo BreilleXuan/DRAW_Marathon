@@ -82,7 +82,7 @@ def load_name_list(img_name_file):
 
 if __name__ == '__main__':
 	namelist = load_name_list("data/namefile.csv")
-	avg = calc_mean(namelist)
+	avg = calc_var(namelist)
 	print(avg)
 
 
