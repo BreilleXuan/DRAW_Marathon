@@ -17,7 +17,7 @@ read_n = 12 # read glimpse grid width/height
 write_n = 12 # write glimpse grid width/height
 read_size = 2*read_n*read_n*3 if FLAGS.read_attn else 2*img_size
 write_size = write_n*write_n*3 if FLAGS.write_attn else img_size
-z_size=100 # QSampler output size
+z_size=120 # QSampler output size
 T=32 # number of generation step
 
 img_name_file = "data/namefile.csv" # image name file
