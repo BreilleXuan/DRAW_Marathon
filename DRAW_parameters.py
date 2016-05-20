@@ -34,6 +34,9 @@ learning_rate=3e-4 # learning rate for optimizer
 eps=1e-10 # epsilon for numerical stabilitys
 ld = 1.
 
+# img_jitter = True
+img_jitter = False
+
 print_interval = 1
 
 prefix = "weights/drawmodel_NO" #model save prefix
