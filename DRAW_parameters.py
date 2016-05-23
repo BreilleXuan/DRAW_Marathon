@@ -21,7 +21,7 @@ read_n = 12 # read glimpse grid width/height
 write_n = 12 # write glimpse grid width/height
 read_size = 2*read_n*read_n*3 if FLAGS.read_attn else 2*img_size
 write_size = write_n*write_n*3 if FLAGS.write_attn else img_size
-z_size=100 # QSampler output size
+z_size=300 # QSampler output size
 T=32 # number of generation step
 
 img_name_file = "data/namefile.csv" # image name file
@@ -42,6 +42,6 @@ print_interval = 1
 prefix = "weights/drawmodel_NO" #model save prefix
 save_interval = 20
 
-continue_training = True
-# continue_training = False
+# continue_training = True
+continue_training = False
 load_model_name = 'weights/drawmodel_NO20.ckpt'
