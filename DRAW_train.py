@@ -33,12 +33,13 @@ print("Model Building Complete...")
 print("--------------------------")
 
 print "Start training..."
-print "Learning Rate: ", learning_rate 
-print "QSampler size: ", z_size
-print "Batch Size   : ", batch_size
-print "Encoder Size : ", enc_size
-print "Decoder Size : ", dec_size
-print "Jitter       : ", img_jitter
+print "Continue_training: ", continue_training 
+print "Learning Rate    : ", learning_rate 
+print "QSampler size    : ", z_size
+print "Batch Size       : ", batch_size
+print "Encoder Size     : ", enc_size
+print "Decoder Size     : ", dec_size
+print "Jitter           : ", img_jitter
 
 print("--------------------------")
 
