@@ -1,8 +1,8 @@
 import tensorflow as tf
 
 tf.flags.DEFINE_string("data_dir", "", "")
-tf.flags.DEFINE_boolean("read_attn", False, "enable attention for reader")
-tf.flags.DEFINE_boolean("write_attn", False, "enable attention for writer")
+tf.flags.DEFINE_boolean("read_attn", True, "enable attention for reader")
+tf.flags.DEFINE_boolean("write_attn", True, "enable attention for writer")
 FLAGS = tf.flags.FLAGS
 
 ## MODEL PARAMETERS ## 
@@ -21,20 +21,20 @@ read_n = 12 # read glimpse grid width/height
 write_n = 12 # write glimpse grid width/height
 read_size = 2*read_n*read_n*3 if FLAGS.read_attn else 2*img_size
 write_size = write_n*write_n*3 if FLAGS.write_attn else img_size
-z_size=300 # QSampler output size
+z_size=500 # QSampler output size
 T=32 # number of generation step
 
 img_name_file = "data/namefile.csv" # image name file
 srcdir = "data/npy_images/" # image directory
 
-batch_size=10 # training minibatch size
+batch_size=100 # training minibatch size
 train_iters=100000
-learning_rate=1e-4 # learning rate for optimizer
+learning_rate=3e-4 # learning rate for optimizer
 eps=1e-10 # epsilon for numerical stabilitys
 ld = 1.
 
-img_jitter = True
-# img_jitter = False
+# img_jitter = True
+img_jitter = False
 jitter = 0.1
 
 print_interval = 1
