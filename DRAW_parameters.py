@@ -1,8 +1,8 @@
 import tensorflow as tf
 
 tf.flags.DEFINE_string("data_dir", "", "")
-tf.flags.DEFINE_boolean("read_attn", True, "enable attention for reader")
-tf.flags.DEFINE_boolean("write_attn", True, "enable attention for writer")
+tf.flags.DEFINE_boolean("read_attn", False, "enable attention for reader")
+tf.flags.DEFINE_boolean("write_attn", False, "enable attention for writer")
 FLAGS = tf.flags.FLAGS
 
 ## MODEL PARAMETERS ## 
@@ -27,9 +27,9 @@ T=32 # number of generation step
 img_name_file = "data/namefile.csv" # image name file
 srcdir = "data/npy_images/" # image directory
 
-batch_size=100 # training minibatch size
+batch_size=200 # training minibatch size
 train_iters=100000
-learning_rate=3e-4 # learning rate for optimizer
+learning_rate=1e-3 # learning rate for optimizer
 eps=1e-10 # epsilon for numerical stabilitys
 ld = 1.
 
@@ -40,7 +40,7 @@ jitter = 0.1
 print_interval = 1
 
 prefix = "weights/drawmodel_NO" #model save prefix
-# save_interval = 500e
+save_interval = 20
 
 # continue_training = True
 continue_training = False

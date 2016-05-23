@@ -41,7 +41,7 @@ print "Decoder Size : ", dec_size
 
 print("--------------------------")
 
-imglist = load_name_list(img_name_file)
+imglist = load_name_list(img_name_file)[:100]
 
 for i in range(train_iters):
 
@@ -55,11 +55,12 @@ for i in range(train_iters):
         results=sess.run(fetches,feed_dict)
         Lxs[i],Lzs[i],_=results
 
-        if (print_interval + 1) % print_interval == 0:
+        if (j + 1) % print_interval == 0:
             print("epoch=%d,iter=%d : Lx: %f Lz: %f" % (i,j,Lxs[i],Lzs[i]))
     
-    ckpt_file=os.path.join(FLAGS.data_dir,prefix+str(i+1)+".ckpt")
-    print("Model saved in file: %s" % saver.save(sess,ckpt_file))
+    if (i + 1) % save_interval == 0:
+        ckpt_file=os.path.join(FLAGS.data_dir,prefix+str(i+1)+".ckpt")
+        print("Model saved in file: %s" % saver.save(sess,ckpt_file))
     
 
 ## TRAINING FINISHED ## 

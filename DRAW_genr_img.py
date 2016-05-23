@@ -6,44 +6,25 @@ import cv2
 
 sess=tf.InteractiveSession()
 saver = tf.train.Saver()
-saver.restore(sess, "data/drawmodel_2_5_100_64.ckpt") 
-
-def img_genr(i):
-
-    canvas_matrix=[0]*T
-    dec_state_ = lstm_dec.zero_state(batch_size, tf.float32)
-
-    for t in range(T):
-        c_prev_ = tf.zeros((batch_size,img_size)) if t==0 else canvas_matrix[t-1]
-        z_tensor = tf.truncated_normal((batch_size, z_size))
-        h_dec_,dec_state_=decode(z_tensor, dec_state_)
-        canvas_matrix[t]=c_prev_ + write(h_dec_) # store results
-
-    canvases=np.array(sess.run(canvas_matrix)) # T * batch_size * img_size
-    canvases=1.0/(1.0+np.exp(-canvases))
-
-    final_img = canvases[-1]
-
-    img = final_img[0]
-
-    out_img = img.reshape(B, A)
-
-    plt.matshow(out_img,cmap=plt.cm.gray)
-    imgname='genr_mnist_'+str(i+1)+'.jpg' 
-    plt.savefig("img/"+imgname)
-    plt.close()
+saver.restore(sess, "weights/drawmodel.ckpt") 
 
 
-    # for t in range(T):
-    #     img = canvases[t,0,:]
-    #     out_img = img.reshape(B, A)
+img = cv2.imread('data/test.jpg')
+resize_rd = cv2.resize(img, (54,54), interpolation = cv2.cv.CV_INTER_AREA)
+imgdone = resize_rd / 255. 
+img_flatten = imgdone.reshape(1, 54*54*3)
 
-    #     plt.matshow(out_img,cmap=plt.cm.gray)
-    #     imgname='seq_'+str(i) + '_' + str(t+1)+'.png' 
-    #     plt.savefig("img/"+imgname)  
-    #     plt.close()      
+img_back = img_flatten.reshape(54,54,3)*255.
+cv2.imwrite('back.jpg', img_back)
 
-for i in range(10):
-    print(i+1)
-    img_genr(i)
+feed_dict = {x:img_flatten}
 
+canvases=sess.run(cs,feed_dict) # generate some examples
+canvases=np.array(canvases) # T x batch x img_size
+
+
+last_img = canvases[-1,0,:]
+last_img=1.0/(1.0+np.exp(-last_img)) * 255.
+img_out = last_img.reshape(54,54,3) 
+print(img_out)
+cv2.imwrite('test.jpg', img_out)
