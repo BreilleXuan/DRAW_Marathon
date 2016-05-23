@@ -40,7 +40,7 @@ jitter = 0.1
 print_interval = 1
 
 prefix = "weights/drawmodel_NO" #model save prefix
-save_interval = 20
+save_interval = 1
 
 # continue_training = True
 continue_training = False
