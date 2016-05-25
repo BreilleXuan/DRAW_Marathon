@@ -27,9 +27,9 @@ T=32 # number of generation step
 img_name_file = "data/namefile.csv" # image name file
 srcdir = "data/npy_images/" # image directory
 
-batch_size=20 # training minibatch size
+batch_size=10 # training minibatch size
 train_iters=100000
-learning_rate=3e-4 # learning rate for optimizer
+learning_rate=1e-4 # learning rate for optimizer
 eps=1e-10 # epsilon for numerical stabilitys
 ld = 1.
 
