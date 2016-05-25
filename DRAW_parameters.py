@@ -17,12 +17,12 @@ img_std = 67.721947057434789
 enc_size = 800 # number of hidden units / output size in LSTM
 dec_size = 800
 
-read_n = 12 # read glimpse grid width/height
-write_n = 12 # write glimpse grid width/height
+read_n = 20 # read glimpse grid width/height
+write_n = 20 # write glimpse grid width/height
 read_size = 2*read_n*read_n*3 if FLAGS.read_attn else 2*img_size
 write_size = write_n*write_n*3 if FLAGS.write_attn else img_size
-z_size=500 # QSampler output size
-T=32 # number of generation step
+z_size=100 # QSampler output size
+T=12 # number of generation step
 
 img_name_file = "data/namefile.csv" # image name file
 srcdir = "data/npy_images/" # image directory
@@ -33,8 +33,8 @@ learning_rate=3e-4 # learning rate for optimizer
 eps=1e-10 # epsilon for numerical stabilitys
 ld = 1.
 
-# img_jitter = True
-img_jitter = False
+img_jitter = True
+# img_jitter = False
 jitter = 0.1
 
 print_interval = 1
