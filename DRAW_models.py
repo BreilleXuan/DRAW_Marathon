@@ -98,9 +98,9 @@ def read_attn(x,x_hat,h_dec_prev):
         imgread_1 = tf.batch_matmul(fydotx_1, Fx1_t)
         imgread_2 = tf.batch_matmul(fydotx_2, Fx2_t)
 
-        glimpse_0 = tf.reshape(imgread_0, [-1, N*N]) * gamma0_
-        glimpse_1 = tf.reshape(imgread_1, [-1, N*N]) * gamma1_
-        glimpse_2 = tf.reshape(imgread_2, [-1, N*N]) * gamma2_
+        glimpse_0 = tf.reshape(imgread_0, [-1, N*N]) * tf.reshape(gamma0_,[-1,1])
+        glimpse_1 = tf.reshape(imgread_1, [-1, N*N]) * tf.reshape(gamma1_,[-1,1])
+        glimpse_2 = tf.reshape(imgread_2, [-1, N*N]) * tf.reshape(gamma2_,[-1,1])
 
         glimpse = tf.concat(1, [glimpse_0, glimpse_1])
         glimpse = tf.concat(1, [glimpse, glimpse_2])
@@ -179,7 +179,7 @@ def write_no_attn(h_dec):
 def write_attn(h_dec):
     with tf.variable_scope("writeW",reuse=DO_SHARE):
         w=linear(h_dec,write_size) # batch x (write_n*write_n*3)
-
+        
     N=write_n
     w=tf.reshape(w, [batch_size,N,N,3])
 
@@ -201,9 +201,9 @@ def write_attn(h_dec):
     wr_1 = tf.batch_matmul(Fy1t, wFx_1)
     wr_2 = tf.batch_matmul(Fy2t, wFx_2)
 
-    wr_0 = tf.reshape(wr_0, [batch_size, B*A]) / gamma0
-    wr_1 = tf.reshape(wr_1, [batch_size, B*A]) / gamma1
-    wr_2 = tf.reshape(wr_2, [batch_size, B*A]) / gamma2
+    wr_0 = tf.reshape(wr_0, [batch_size, B*A])*tf.reshape(1.0/gamma0,[-1,1])
+    wr_1 = tf.reshape(wr_1, [batch_size, B*A])*tf.reshape(1.0/gamma1,[-1,1])
+    wr_2 = tf.reshape(wr_2, [batch_size, B*A])*tf.reshape(1.0/gamma2,[-1,1])
 
     wr = tf.concat(1, [wr_0, wr_1])
     wr = tf.concat(1, [wr, wr_2])
