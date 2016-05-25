@@ -27,7 +27,7 @@ T=32 # number of generation step
 img_name_file = "data/namefile.csv" # image name file
 srcdir = "data/npy_images/" # image directory
 
-batch_size=2 # training minibatch size
+batch_size=1 # training minibatch size
 train_iters=100000
 learning_rate=1e-4 # learning rate for optimizer
 eps=1e-10 # epsilon for numerical stabilitys
@@ -40,7 +40,7 @@ jitter = 0.1
 print_interval = 1
 
 prefix = "weights/drawmodel_NO" #model save prefix
-save_interval = 100
+save_interval = 1000
 
 # continue_training = True
 continue_training = False

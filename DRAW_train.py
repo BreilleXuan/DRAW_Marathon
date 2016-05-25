@@ -43,7 +43,7 @@ print "Jitter           : ", img_jitter
 
 print("--------------------------")
 
-imglist = load_name_list(img_name_file)[:10]
+imglist = load_name_list(img_name_file)[:1]
 
 for i in range(train_iters):
 
