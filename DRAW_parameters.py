@@ -29,12 +29,12 @@ srcdir = "data/npy_images/" # image directory
 
 batch_size=20 # training minibatch size
 train_iters=100000
-learning_rate=3e-5 # learning rate for optimizer
+learning_rate=3e-4 # learning rate for optimizer
 eps=1e-10 # epsilon for numerical stabilitys
 ld = 1.
 
-img_jitter = True
-# img_jitter = False
+# img_jitter = True
+img_jitter = False
 jitter = 0.1
 
 print_interval = 1
