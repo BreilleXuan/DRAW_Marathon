@@ -1,8 +1,8 @@
 import tensorflow as tf
 
 tf.flags.DEFINE_string("data_dir", "", "")
-tf.flags.DEFINE_boolean("read_attn", False, "enable attention for reader")
-tf.flags.DEFINE_boolean("write_attn", False, "enable attention for writer")
+tf.flags.DEFINE_boolean("read_attn", True, "enable attention for reader")
+tf.flags.DEFINE_boolean("write_attn", True, "enable attention for writer")
 FLAGS = tf.flags.FLAGS
 
 ## MODEL PARAMETERS ## 
