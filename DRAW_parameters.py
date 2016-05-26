@@ -21,20 +21,20 @@ read_n = 15 # read glimpse grid width/height
 write_n = 15 # write glimpse grid width/height
 read_size = 2*read_n*read_n*3 if FLAGS.read_attn else 2*img_size
 write_size = write_n*write_n*3 if FLAGS.write_attn else img_size
-z_size=200 # QSampler output size
+z_size=100 # QSampler output size
 T=32 # number of generation step
 
 img_name_file = "data/namefile.csv" # image name file
 srcdir = "data/npy_images/" # image directory
 
-batch_size=1 # training minibatch size
+batch_size=2 # training minibatch size
 train_iters=100000
-learning_rate=1e-5 # learning rate for optimizer
+learning_rate=1e-4 # learning rate for optimizer
 eps=1e-10 # epsilon for numerical stabilitys
 ld = 1.
 
-img_jitter = True
-# img_jitter = False
+# img_jitter = True
+img_jitter = False
 jitter = 0.1
 
 print_interval = 1
@@ -42,6 +42,6 @@ print_interval = 1
 prefix = "weights/drawmodel_NO" #model save prefix
 save_interval = 1000
 
-continue_training = True
-# continue_training = False
+# continue_training = True
+continue_training = False
 load_model_name = 'weights/drawmodel_NO8000.ckpt'
