@@ -49,68 +49,67 @@ def attn_window(scope,h_dec,N):
 def read_no_attn(x,x_hat,h_dec_prev):
     return tf.concat(1,[x,x_hat])
 
+def read_attn(x,x_hat,h_dec_prev):
+    Fx0,Fy0,gamma0=attn_window("read0",h_dec_prev,read_n)
+    Fx1,Fy1,gamma1=attn_window("read1",h_dec_prev,read_n)
+    Fx2,Fy2,gamma2=attn_window("read2",h_dec_prev,read_n)
+    print(Fx0 == Fx1)
+    print(Fy0 == Fy1)
+    def filter_img(img,Fx,Fy,gamma,N):
+        Fxt=tf.transpose(Fx,perm=[0,2,1])
+        img=tf.reshape(img,[-1,B,A])
+        glimpse=tf.batch_matmul(Fy,tf.batch_matmul(img,Fxt))
+        glimpse=tf.reshape(glimpse,[-1,N*N])
+        return glimpse*tf.reshape(gamma,[-1,1])
+
+    x0=filter_img(x[:, :B*A],Fx0,Fy0,gamma0,read_n) # batch x (read_n*read_n*3)
+    x1=filter_img(x[:, B*A:2*B*A],Fx1,Fy1,gamma1,read_n) # batch x (read_n*read_n*3)
+    x2=filter_img(x[:, 2*B*A:3*B*A],Fx2,Fy2,gamma2,read_n) # batch x (read_n*read_n*3)
+    x = tf.concat(1, [x0,x1])
+    x = tf.concat(1, [x,x2])
+
+    x_hat0=filter_img(x_hat[:, :B*A],Fx0,Fy0,gamma0,read_n)
+    x_hat1=filter_img(x_hat[:, B*A:2*B*A],Fx1,Fy1,gamma1,read_n)
+    x_hat2=filter_img(x_hat[:, 2*B*A:3*B*A],Fx2,Fy2,gamma2,read_n)
+    x_hat = tf.concat(1, [x_hat0,x_hat1])
+    x_hat = tf.concat(1, [x_hat,x_hat2])
+    return tf.concat(1,[x,x_hat]) # concat along feature axis
+
 # def read_attn(x,x_hat,h_dec_prev):
-#     Fx,Fy,gamma=attn_window("read",h_dec_prev,read_n)
-#     def filter_img(img,Fx_,Fy_,gamma,N):
-#         Fxt=tf.transpose(Fx,perm=[0,2,1]) # batch*A*N
+
+#     Fx0,Fy0,gamma0=attn_window("read0",h_dec_prev,read_n)
+#     Fx1,Fy1,gamma1=attn_window("read1",h_dec_prev,read_n)
+#     Fx2,Fy2,gamma2=attn_window("read2",h_dec_prev,read_n)
+
+#     def filter_img(img,Fx0_,Fy0_,Fx1_,Fy1_,Fx2_,Fy2_,gamma0_,gamma1_,gamma2_,N):
+
+#         Fx0_t=tf.transpose(Fx0_,perm=[0,2,1]) # batch*A*N
+#         Fx1_t=tf.transpose(Fx1_,perm=[0,2,1]) # batch*A*N
+#         Fx2_t=tf.transpose(Fx2_,perm=[0,2,1]) # batch*A*N
+
 #         img=tf.reshape(img,[-1,B,A,3])    # batch*B*A*3
 #                                           # Fy: batch*N*B
-#         fydotx_0 = tf.batch_matmul(Fy, img[:,:,:,0])
-#         fydotx_1 = tf.batch_matmul(Fy, img[:,:,:,1])
-#         fydotx_2 = tf.batch_matmul(Fy, img[:,:,:,2])
+#         fydotx_0 = tf.batch_matmul(Fy0_, img[:,:,:,0])
+#         fydotx_1 = tf.batch_matmul(Fy1_, img[:,:,:,1])
+#         fydotx_2 = tf.batch_matmul(Fy2_, img[:,:,:,2])
 
-#         imgread_0 = tf.batch_matmul(fydotx_0, Fxt)
-#         imgread_1 = tf.batch_matmul(fydotx_1, Fxt)
-#         imgread_2 = tf.batch_matmul(fydotx_2, Fxt)
+#         imgread_0 = tf.batch_matmul(fydotx_0, Fx0_t)
+#         imgread_1 = tf.batch_matmul(fydotx_1, Fx1_t)
+#         imgread_2 = tf.batch_matmul(fydotx_2, Fx2_t)
 
-#         glimpse_0 = tf.reshape(imgread_0, [-1, N*N])
-#         glimpse_1 = tf.reshape(imgread_1, [-1, N*N])
-#         glimpse_2 = tf.reshape(imgread_2, [-1, N*N])
+#         glimpse_0 = tf.reshape(imgread_0, [-1, N*N]) * tf.reshape(gamma0_,[-1,1])
+#         glimpse_1 = tf.reshape(imgread_1, [-1, N*N]) * tf.reshape(gamma1_,[-1,1])
+#         glimpse_2 = tf.reshape(imgread_2, [-1, N*N]) * tf.reshape(gamma2_,[-1,1])
 
 #         glimpse = tf.concat(1, [glimpse_0, glimpse_1])
 #         glimpse = tf.concat(1, [glimpse, glimpse_2])
     
-#         return glimpse*tf.reshape(gamma,[-1,1])
+#         return glimpse
 
-#     x=filter_img(x,Fx,Fy,gamma,read_n) # batch x (read_n*read_n*3)
-#     x_hat=filter_img(x_hat,Fx,Fy,gamma,read_n)
+#     x    =filter_img(x,    Fx0,Fy0,Fx1,Fy1,Fx2,Fy2,gamma0,gamma1,gamma2,read_n) # batch x (read_n*read_n*3)
+#     x_hat=filter_img(x_hat,Fx0,Fy0,Fx1,Fy1,Fx2,Fy2,gamma0,gamma1,gamma2,read_n)
+
 #     return tf.concat(1,[x,x_hat]) # concat along feature axis
-
-def read_attn(x,x_hat,h_dec_prev):
-
-    Fx0,Fy0,gamma0=attn_window("read0",h_dec_prev,read_n)
-    Fx1,Fy1,gamma1=attn_window("read1",h_dec_prev,read_n)
-    Fx2,Fy2,gamma2=attn_window("read2",h_dec_prev,read_n)
-
-    def filter_img(img,Fx0_,Fy0_,Fx1_,Fy1_,Fx2_,Fy2_,gamma0_,gamma1_,gamma2_,N):
-
-        Fx0_t=tf.transpose(Fx0_,perm=[0,2,1]) # batch*A*N
-        Fx1_t=tf.transpose(Fx1_,perm=[0,2,1]) # batch*A*N
-        Fx2_t=tf.transpose(Fx2_,perm=[0,2,1]) # batch*A*N
-
-        img=tf.reshape(img,[-1,B,A,3])    # batch*B*A*3
-                                          # Fy: batch*N*B
-        fydotx_0 = tf.batch_matmul(Fy0_, img[:,:,:,0])
-        fydotx_1 = tf.batch_matmul(Fy1_, img[:,:,:,1])
-        fydotx_2 = tf.batch_matmul(Fy2_, img[:,:,:,2])
-
-        imgread_0 = tf.batch_matmul(fydotx_0, Fx0_t)
-        imgread_1 = tf.batch_matmul(fydotx_1, Fx1_t)
-        imgread_2 = tf.batch_matmul(fydotx_2, Fx2_t)
-
-        glimpse_0 = tf.reshape(imgread_0, [-1, N*N]) * tf.reshape(gamma0_,[-1,1])
-        glimpse_1 = tf.reshape(imgread_1, [-1, N*N]) * tf.reshape(gamma1_,[-1,1])
-        glimpse_2 = tf.reshape(imgread_2, [-1, N*N]) * tf.reshape(gamma2_,[-1,1])
-
-        glimpse = tf.concat(1, [glimpse_0, glimpse_1])
-        glimpse = tf.concat(1, [glimpse, glimpse_2])
-    
-        return glimpse
-
-    x=filter_img(x,Fx0,Fy0,Fx1,Fy1,Fx2,Fy2,gamma0,gamma1,gamma2,read_n) # batch x (read_n*read_n*3)
-    x_hat=filter_img(x_hat,Fx0,Fy0,Fx1,Fy1,Fx2,Fy2,gamma0,gamma1,gamma2,read_n)
-
-    return tf.concat(1,[x,x_hat]) # concat along feature axis
 
 read = read_attn if FLAGS.read_attn else read_no_attn
 
