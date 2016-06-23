@@ -1,5 +1,4 @@
 import tensorflow as tf
-from tensorflow.models.rnn.rnn_cell import LSTMCell
 
 from DRAW_parameters import *
 
@@ -7,8 +6,8 @@ DO_SHARE=None # workaround for variable_scope(reuse=True)
 
 x = tf.placeholder(tf.float32,shape=(batch_size,img_size)) # input (batch_size * img_size)
 e=tf.random_normal((batch_size,z_size), mean=0, stddev=1) # Qsampler noise
-lstm_enc = LSTMCell(enc_size, read_size+dec_size) # encoder Op
-lstm_dec = LSTMCell(dec_size, z_size) # decoder Op
+lstm_enc = tf.nn.rnn_cell.LSTMCell(enc_size, read_size+dec_size) # encoder Op
+lstm_dec = tf.nn.rnn_cell.LSTMCell(dec_size, z_size) # decoder Op
 
 def linear(x,output_dim):
     """
@@ -53,8 +52,7 @@ def read_attn(x,x_hat,h_dec_prev):
     Fx0,Fy0,gamma0=attn_window("read0",h_dec_prev,read_n)
     Fx1,Fy1,gamma1=attn_window("read1",h_dec_prev,read_n)
     Fx2,Fy2,gamma2=attn_window("read2",h_dec_prev,read_n)
-    print(Fx0 == Fx1)
-    print(Fy0 == Fy1)
+
     def filter_img(img,Fx,Fy,gamma,N):
         Fxt=tf.transpose(Fx,perm=[0,2,1])
         img=tf.reshape(img,[-1,B,A])

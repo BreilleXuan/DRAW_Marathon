@@ -8,7 +8,6 @@ from DRAW_parameters import *
 
 print("Building model...")
 optimizer=tf.train.AdamOptimizer(learning_rate, beta1=0.5)
-# optimizer=tf.train.MomentumOptimizer(learning_rate, momentum=0.9)
 grads=optimizer.compute_gradients(cost)
 for i,(g,v) in enumerate(grads):
     if g is not None:
@@ -20,7 +19,8 @@ fetches.extend([Lx,Lz,train_op])
 Lxs=[0]*train_iters
 Lzs=[0]*train_iters
 
-sess=tf.InteractiveSession()
+gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.20)
+sess = tf.InteractiveSession(config=tf.ConfigProto(gpu_options=gpu_options))
 
 saver = tf.train.Saver() # saves variables learned during training
 if continue_training:
